@@ -23,6 +23,8 @@ jobs:
               uses: docker/setup-buildx-action@v2.5.0
               with:
                 platforms: linux/amd64,linux/arm64
+              env:
+                BUILDX_NO_DEFAULT_ATTESTATIONS: 1
 
             # Could potentially cache here?
 
