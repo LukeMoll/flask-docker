@@ -1,5 +1,6 @@
-from flask import Flask
+from flask import Flask, abort
 import os
+import subprocess
 
 app = Flask(__name__)
 
@@ -7,6 +8,23 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return """<html><body><h1>Hello, world!</h1></body></html>"""
+
+@app.route('/gitinfo')
+def gitinfo():
+    GITINFO_FILE_PATH="gitinfo.txt"
+
+    if os.path.exists(GITINFO_FILE_PATH):
+        with open(GITINFO_FILE_PATH) as fd:
+            gitinfo_text = "\n".join(fd.readlines())
+            return gitinfo_text
+    elif os.path.exists(".git"):
+        try:
+            proc = subprocess.run(["git", "show", "-s"], stdout=subprocess.PIPE)
+            return proc.stdout.decode("utf8")
+        except:
+            abort(500)
+    else:
+        abort(404)
 
 
 if __name__ == "__main__":
