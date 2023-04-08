@@ -15,7 +15,7 @@ def gitinfo():
 
     if os.path.exists(GITINFO_FILE_PATH):
         with open(GITINFO_FILE_PATH) as fd:
-            gitinfo_text = "\n".join(fd.readlines())
+            gitinfo_text = "".join(fd.readlines())
             return gitinfo_text
     elif os.path.exists(".git"):
         try:
